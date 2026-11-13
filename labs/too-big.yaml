@@ -1,0 +1,13 @@
+# Module 03 lab: a pod that no node can hold. Applied from the reference clone, never committed.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: too-big
+  namespace: default
+spec:
+  containers:
+    - name: too-big
+      image: ghcr.io/stefanprodan/podinfo:6.17.0
+      resources:
+        requests:
+          cpu: "64"                                     # 64 CPU cores: no kind node has that

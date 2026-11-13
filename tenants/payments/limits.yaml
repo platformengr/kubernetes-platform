@@ -1,0 +1,16 @@
+# Defaults for containers that state nothing, and an upper bound. Owned by the platform team.
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: container-defaults
+  namespace: payments-dev
+spec:
+  limits:
+    - type: Container
+      defaultRequest:
+        cpu: 50m
+        memory: 64Mi
+      default:
+        memory: 128Mi
+      max:
+        memory: 512Mi

@@ -1,0 +1,11 @@
+# How many checkout pods the platform team may evict at once (node drains, upgrades). Owned by team-checkout.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: checkout
+  namespace: checkout-dev
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: checkout

@@ -1,0 +1,58 @@
+# Network walls for payments-dev. Owned by the platform team.
+# Incoming: only checkout's pods in checkout-dev (no ingress controller: payments is internal). Outgoing: DNS and pods in this namespace.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: payments-dev
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-from-checkout
+  namespace: payments-dev
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        # One list item with both selectors: pods named checkout AND in checkout-dev.
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: checkout-dev
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: checkout
+      ports:
+        - protocol: TCP
+          port: 9898
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-egress
+  namespace: payments-dev
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - podSelector: {}

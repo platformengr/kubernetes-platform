@@ -1,0 +1,19 @@
+# Routes http://checkout.localtest.me:8090 through Traefik to the checkout Service. Owned by team-checkout.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: checkout
+  namespace: checkout-dev
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: checkout.localtest.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: checkout
+                port:
+                  name: http

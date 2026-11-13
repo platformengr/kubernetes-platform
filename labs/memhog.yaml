@@ -1,0 +1,18 @@
+# Module 03 lab: a container that asks for more memory than its limit allows.
+# Applied from the reference clone, never committed to your repo.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memhog
+  namespace: checkout-dev
+spec:
+  containers:
+    - name: memhog
+      image: ghcr.io/stefanprodan/podinfo:6.17.0
+      command: ["./podinfo", "--stress-memory=200"]   # loads 200 MB into memory
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          memory: 64Mi                                  # the node kills it above 64Mi

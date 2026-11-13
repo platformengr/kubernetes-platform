@@ -1,0 +1,13 @@
+# One stable name for every ready catalog pod. Owned by team-catalog.
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  namespace: catalog-dev
+spec:
+  selector:
+    app.kubernetes.io/name: catalog
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

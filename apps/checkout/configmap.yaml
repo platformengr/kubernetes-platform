@@ -1,0 +1,11 @@
+# checkout's settings. Owned by team-checkout. The version is part of the name and the object is
+# immutable, so a change is a new name, a rollout, and a clean git revert.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: checkout-settings-v2
+  namespace: checkout-dev
+immutable: true
+data:
+  PODINFO_UI_MESSAGE: checkout (dev)
+  PODINFO_UI_COLOR: "#34577c"

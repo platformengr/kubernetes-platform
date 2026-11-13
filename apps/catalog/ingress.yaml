@@ -1,0 +1,19 @@
+# Routes http://catalog.localtest.me:8090 through Traefik to the catalog Service. Owned by team-catalog.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: catalog
+  namespace: catalog-dev
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: catalog.localtest.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: catalog
+                port:
+                  name: http

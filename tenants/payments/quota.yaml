@@ -1,0 +1,15 @@
+# What the whole namespace may take from the cluster. Owned by the platform team.
+# Sized for the team's peak replicas plus one extra pod during a rolling update.
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: team-quota
+  namespace: payments-dev
+spec:
+  hard:
+    requests.cpu: 400m
+    requests.memory: 512Mi
+    limits.memory: 1Gi
+    pods: "6"
+    services.loadbalancers: "0"
+    services.nodeports: "0"

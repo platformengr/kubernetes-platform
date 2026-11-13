@@ -1,0 +1,11 @@
+# payments's settings. Owned by team-payments. The version is part of the name and the object is
+# immutable, so a change is a new name, a rollout, and a clean git revert.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payments-settings-v1
+  namespace: payments-dev
+immutable: true
+data:
+  PODINFO_UI_MESSAGE: payments (dev)
+  PODINFO_UI_COLOR: "#34577c"

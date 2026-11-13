@@ -1,0 +1,11 @@
+# catalog's settings. Owned by team-catalog. The version is part of the name and the object is
+# immutable, so a change is a new name, a rollout, and a clean git revert.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalog-settings-v1
+  namespace: catalog-dev
+immutable: true
+data:
+  PODINFO_UI_MESSAGE: catalog (dev)
+  PODINFO_UI_COLOR: "#34577c"

@@ -1,0 +1,23 @@
+# Traefik, the ingress controller: the front door of the cluster. Owned by the platform team.
+# The values cluster/traefik.yaml is rendered from (see the command at the top of that file).
+providers:
+  kubernetesCRD:
+    enabled: false           # plain Ingress objects only
+  kubernetesIngress:
+    allowEmptyServices: true # a Service with no ready pods answers 503, not 404
+ports:
+  web:
+    nodePort: 30080          # kind maps this to port 8090 on your laptop
+  websecure:
+    expose:
+      default: false         # no TLS on a laptop
+service:
+  spec:
+    type: NodePort         # kind has no cloud load balancer
+# Run on the control plane, so draining a worker never moves the front door.
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule

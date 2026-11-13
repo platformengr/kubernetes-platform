@@ -1,0 +1,19 @@
+# One kind cluster for the whole course: a control plane and two workers.
+# Traefik listens on NodePort 30080 on the control plane; this mapping makes it
+# reachable from your laptop at http://<name>.localtest.me:8090
+# (*.localtest.me resolves to 127.0.0.1).
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: k8s
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
+    extraPortMappings:
+      - containerPort: 30080   # Traefik web (HTTP)
+        hostPort: 8090
+        listenAddress: 127.0.0.1
+        protocol: TCP
+  - role: worker
+    image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
+  - role: worker
+    image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
